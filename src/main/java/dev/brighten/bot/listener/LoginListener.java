@@ -20,7 +20,7 @@ public class LoginListener implements Listener {
                 Antibot.INSTANCE.userHandler.confirm(event.getPlayer().getUniqueId());
             } else if(!Antibot.INSTANCE.userHandler.isConfirmed(event.getPlayer().getUniqueId())) {
                 user.startConfirmation();
-            }
+            } else user.confirmed = true;
         });
     }
 
