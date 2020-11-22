@@ -75,7 +75,6 @@ public class User {
     public Optional<ResultType> startConfirmation() {
         if(confirmed)  return Optional.empty();
 
-        System.out.println(player.getAddress().getAddress().getHostAddress());
         try {
             URL url = new URL(StringUtil.formatUrl(startUrl, uuid.toString(),
                     player.getAddress().getAddress().getHostAddress()));
