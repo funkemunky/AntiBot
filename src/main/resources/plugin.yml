@@ -1,0 +1,4 @@
+name: Antibot
+main: dev.brighten.bot.Antibot
+author: funkemunky
+version: ${project.version}
