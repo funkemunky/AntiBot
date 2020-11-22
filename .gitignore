@@ -11,9 +11,9 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.nar
+*.iml
 *.ear
 *.zip
 *.tar.gz
@@ -21,3 +21,20 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# Kauri Project Files and Stuffs
+**/.idea/**
+**/out/**
+**/.idea/misc.xml
+*.lst
+.idea/**
+/**/target/**
+**/target/**
+.settings
+classes/**
+out/**
+target/**
+**/target/**
+*.properties
+dependency-reduced-pom.xml
+**/dependency-reduced-pom.xml
