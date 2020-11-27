@@ -1,4 +1,5 @@
 name: Antibot
 main: dev.brighten.bot.Antibot
 author: funkemunky
+depend: [Atlas]
 version: ${project.version}

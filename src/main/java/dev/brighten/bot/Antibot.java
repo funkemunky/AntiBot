@@ -39,6 +39,9 @@ public class Antibot extends JavaPlugin {
             userHandler = null;
         });
         disable("Listeners", () -> HandlerList.unregisterAll(INSTANCE));
+        disable("Atlas Listeners", () -> Atlas.getInstance().getEventManager()
+                .unregisterAll(Antibot.this));
+        disable("Commands", () -> getCommandManager().unregisterCommands());
         disable("Tasks", () -> Bukkit.getScheduler().cancelTasks(INSTANCE));
     }
 
