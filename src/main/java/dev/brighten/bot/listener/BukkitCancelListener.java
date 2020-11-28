@@ -17,7 +17,7 @@ public class BukkitCancelListener implements Listener {
     public void onMove(PlayerMoveEvent event) {
         val user = Antibot.INSTANCE.userHandler.getUser(event.getPlayer().getUniqueId());
 
-        if(user.isPresent() && !user.get().confirmed) {
+        if(user.isPresent() && !user.get().confirmed && event.getTo().distance(event.getFrom()) > 0) {
             event.setCancelled(true);
         }
     }

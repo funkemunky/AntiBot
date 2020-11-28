@@ -1,6 +1,7 @@
 package dev.brighten.bot.handler;
 
 import cc.funkemunky.api.utils.Color;
+import cc.funkemunky.api.utils.RunUtils;
 import dev.brighten.bot.Antibot;
 import dev.brighten.bot.util.StringUtil;
 import dev.brighten.db.utils.json.JSONException;
@@ -45,7 +46,7 @@ public class User {
             HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
 
             connection.setRequestMethod("POST");
-            connection.setRequestProperty("User-Agent", "Java/1.8");
+            connection.setRequestProperty("User-Agent", "Java/Antibot");
 
             Integer response = connection.getResponseCode();
 
@@ -59,9 +60,13 @@ public class User {
                                 .fromLegacyText(Color
                                         .translate("&aYour account was confirmed.")));
                         confirmed = true;
+                        RunUtils.task(() -> {
+                            player.teleport(player.getLocation());
+                        });
                         Antibot.INSTANCE.userHandler.confirm(uuid);
                     }
-                } else return Optional.of(ResultType.valueOf(object.getString("errorReason")));
+                } else if(object.has("errorReason"))
+                    return Optional.of(ResultType.valueOf(object.getString("errorReason")));
             }
         } catch (IOException | JSONException e) {
             e.printStackTrace();
