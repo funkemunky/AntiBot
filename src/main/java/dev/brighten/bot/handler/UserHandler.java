@@ -49,6 +49,9 @@ public class UserHandler implements Runnable {
         for (User value : userMap.values()) {
             if(value.confirmed) continue;
 
+            RunUtils.task(() -> {
+                value.player.teleport(value.player.getLocation());
+            });
             value.checkIfConfirmed();
         }
     }

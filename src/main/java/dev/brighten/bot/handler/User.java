@@ -62,6 +62,7 @@ public class User {
                         confirmed = true;
                         RunUtils.task(() -> {
                             player.teleport(player.getLocation());
+                            player.setWalkSpeed(0.2f);
                         });
                         Antibot.INSTANCE.userHandler.confirm(uuid);
                     }
@@ -101,7 +102,8 @@ public class User {
                                     .translate("&cYou must confirm your account before you can do anything: &f"
                                             + StringUtil.formatUrl("https://funkemunky.cc/captcha?id=%s",
                                             object.getString("id")))));
-                } else return Optional.of(ResultType.valueOf(object.getString("errorReason")));
+                } else if(object.has("errorReason"))
+                    return Optional.of(ResultType.valueOf(object.getString("errorReason")));
             }
         } catch (IOException | JSONException e) {
             e.printStackTrace();

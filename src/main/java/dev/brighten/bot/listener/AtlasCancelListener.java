@@ -19,6 +19,8 @@ public class AtlasCancelListener implements AtlasListener {
             case Packet.Client.BLOCK_PLACE:
             case Packet.Client.BLOCK_PLACE_1_9:
             case Packet.Client.LOOK:
+            case Packet.Client.POSITION:
+            case Packet.Client.POSITION_LOOK:
             case Packet.Client.CHAT:
             case Packet.Client.ARM_ANIMATION:
             case Packet.Client.USE_ENTITY:
