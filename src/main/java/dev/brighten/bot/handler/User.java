@@ -9,14 +9,14 @@ import dev.brighten.db.utils.json.JSONObject;
 import dev.brighten.db.utils.json.JsonReader;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 
 import javax.net.ssl.HttpsURLConnection;
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,6 +26,7 @@ public class User {
     public final Player player;
     public final String id;
     public boolean confirmed;
+    public BukkitTask timer;
 
     private static String startUrl = "https://funkemunky.cc/captcha/start?uuid=%s&ip=%s",
             checkUrl = "https://funkemunky.cc//captcha/check?id=%s",
@@ -60,6 +61,7 @@ public class User {
                                 .fromLegacyText(Color
                                         .translate("&aYour account was confirmed.")));
                         confirmed = true;
+                        if(timer != null) timer.cancel();
                         RunUtils.task(() -> {
                             player.teleport(player.getLocation());
                             player.setWalkSpeed(0.2f);
@@ -97,11 +99,18 @@ public class User {
                         .readAll(new BufferedReader(new InputStreamReader(connection.getInputStream()))));
 
                 if (!object.getBoolean("error")) {
+                    player.playSound(player.getLocation(), Sound.NOTE_PLING, 1, 40);
                     player.spigot().sendMessage(TextComponent
                             .fromLegacyText(Color
-                                    .translate("&cYou must confirm your account before you can do anything: &f"
+                                    .translate("&cYou have 45 seconds to complete the captcha before being kicked from the server: &f"
                                             + StringUtil.formatUrl("https://funkemunky.cc/captcha?id=%s",
                                             object.getString("id")))));
+
+                    timer = RunUtils.taskLater(() -> {
+                        if(!confirmed) {
+                            player.kickPlayer(Color.Red + "You didn't complete the captcha!");
+                        }
+                    }, Antibot.INSTANCE, 900);
                 } else if(object.has("errorReason"))
                     return Optional.of(ResultType.valueOf(object.getString("errorReason")));
             }
@@ -135,6 +144,7 @@ public class User {
                             .fromLegacyText(Color
                                     .translate("&aYour account was confirmed.")));
                     confirmed = true;
+                    if(timer != null) timer.cancel();
                     Antibot.INSTANCE.userHandler.confirm(uuid);
                 } else return Optional.of(ResultType.valueOf(object.getString("errorReason")));
             }
