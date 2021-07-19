@@ -28,7 +28,6 @@ public class AtlasCancelListener implements AtlasListener {
                 val user = Antibot.INSTANCE.userHandler.getUser(event.getPlayer().getUniqueId());
 
                 if(user.isPresent() && !user.get().confirmed) {
-                    event.setCancelled(true);
                 }
                 break;
         }
